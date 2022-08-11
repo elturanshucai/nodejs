@@ -7,6 +7,45 @@ const router = express.Router()
 const checkJwt = require('./auth');
 const cors = require('cors');
 
+const data={
+    first_name: "Elturan",
+    last_name: "Shucai",
+    age: "20",
+    birthDay: "01.03.2002",
+    skills: [
+        {
+            skilName: "HTML",
+            level: "5"
+        },
+        {
+            skilName: "CSS",
+            level: "5"
+        },
+        {
+            skilName: "JavaScript",
+            level: "5"
+        },
+        {
+            skilName: "React",
+            level: "4"
+        },
+        {
+            skilName: "Redux toolkit",
+            level: "4"
+        },
+        {
+            skilName: "Tailwind CSS",
+            level: "4"
+        },
+        {
+            skilName: "GIT",
+            level: "3"
+        }
+    ],
+    email: "elturanfcb@gmail.com",
+    github: "github.com/elturanshucai"
+}
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
@@ -47,7 +86,7 @@ router.get('/', function (req, res, next) {
     res.send('Running')
 })
 router.get('/user',checkJwt, function (req, res, next) {
-    res.send({name: "Elturan", age: "20"})
+    res.send(data)
 })
 
 app.use('/', router)

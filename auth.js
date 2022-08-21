@@ -7,7 +7,7 @@ module.exports=(req, res, next)=>{
     } catch (error) {
         return res.status(401).send({
             message: 'Icazesiz giris',
-            status: -1
+            status: 401
         })
     }
 }

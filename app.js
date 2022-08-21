@@ -6,8 +6,9 @@ const port = 5000
 const router = express.Router()
 const checkJwt = require('./auth');
 const cors = require('cors');
+const user = require('./user')
 
-const data={
+const data = {
     first_name: "Elturan",
     last_name: "Shucai",
     age: "20",
@@ -51,14 +52,19 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
 router.post('/login', function (req, res, next) {
-    const email = req.body
+    const reqUser = req.body
     const token = jwt.sign({
-        email: email,
+        user: reqUser,
         ad: 'Elturan',
         exp: Math.floor(Date.now() / 1000) + 600,
         issuer: 'www.iss.com'
     }, 'elturans')
-    res.send(token)
+    if(reqUser.username === user.username && reqUser.password === user.password){
+        res.send(token)
+    }
+    else{
+        res.send(false)
+    }
 })
 
 router.post('/login2', (req, res) => {
@@ -68,9 +74,9 @@ router.post('/login2', (req, res) => {
 
 router.post('/verify', (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
         const { token } = req.body;
-        console.log(token);
+        // console.log(token);
         const decodedData = jwt.verify(token, 'elturans');
         res.send(decodedData);
     } catch (err) {
@@ -78,14 +84,14 @@ router.post('/verify', (req, res) => {
     }
 })
 
-router.post('/posts',checkJwt, function (req, res, next) {
-    console.log('a');
+router.post('/posts', checkJwt, function (req, res, next) {
+    // console.log('a');
     res.send('Hello World')
 })
 router.get('/', function (req, res, next) {
     res.send('Running')
 })
-router.get('/user',checkJwt, function (req, res, next) {
+router.get('/user', checkJwt, function (req, res, next) {
     res.send(data)
 })
 

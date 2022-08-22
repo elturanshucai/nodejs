@@ -56,7 +56,7 @@ router.post('/login', function (req, res, next) {
     const token = jwt.sign({
         user: reqUser,
         ad: 'Elturan',
-        exp: Math.floor(Date.now() / 1000) + 600,
+        exp: Math.floor(Date.now() / 1000) + 6000,
         issuer: 'www.iss.com'
     }, 'elturans')
     if(reqUser.username === user.username && reqUser.password === user.password){
@@ -74,9 +74,7 @@ router.post('/login2', (req, res) => {
 
 router.post('/verify', (req, res) => {
     try {
-        // console.log(req.body);
         const { token } = req.body;
-        // console.log(token);
         const decodedData = jwt.verify(token, 'elturans');
         res.send(decodedData);
     } catch (err) {
@@ -85,7 +83,6 @@ router.post('/verify', (req, res) => {
 })
 
 router.post('/posts', checkJwt, function (req, res, next) {
-    // console.log('a');
     res.send('Hello World')
 })
 router.get('/', function (req, res, next) {
